@@ -1,4 +1,4 @@
-// C:\xsportsmatch-api\api\send-login-code.js
+// serverless function on Vercel
 import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
@@ -7,9 +7,7 @@ export default async function handler(req, res) {
   }
 
   const { email, code } = req.body || {};
-  if (!email || !code) {
-    return res.status(400).json({ error: "Missing email or code" });
-  }
+  if (!email || !code) return res.status(400).json({ error: "Missing email or code" });
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -36,7 +34,7 @@ export default async function handler(req, res) {
     });
     res.status(200).json({ ok: true });
   } catch (err) {
-    console.error("❌ Email error:", err);
+    console.error("Email error:", err);
     res.status(500).json({ error: "Email failed", details: err.message });
   }
 }
